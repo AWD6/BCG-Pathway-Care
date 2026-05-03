@@ -21,7 +21,7 @@ const T = {
     nextAppt: "นัดหมายถัดไป", noAppt: "ยังไม่มีนัดหมาย",
     latestStatus: "สถานะล่าสุด", noSymptom: "ยังไม่มีบันทึก",
     totalAppts: "นัดหมายทั้งหมด", totalSymptoms: "บันทึกอาการทั้งหมด",
-    quickActions: "เมนู",
+    quickActions: "เมนูด่วน",
     qaRecord: "บันทึกอาการ", qaAppt: "เพิ่มนัดหมาย",
     qaHistory: "ดูประวัติ", qaEducation: "อ่านข้อมูล BCG",
     alertGreen: "อาการของท่านอยู่ในระดับปกติ ดูแลตัวเองต่อไปนะครับ",
@@ -302,11 +302,11 @@ AUA Guidelines แนะนำให้ BCG intravesical therapy เป็น st
 
 <strong>European Association of Urology (EAU)</strong>
 ก่อตั้งปี ค.ศ. 1972 ประเทศเนเธอร์แลนด์ | สมาชิกมากกว่า 19,000 คน (ปี 2025)
-EAU Guidelines เป็น clinical guidelines ที่ถูกอ้างอิงมากที่สุดในสาขาวิทยาระบบทางเดินปัสสาวะ ครอบคลุมการวินิจฉัยและการรักษาโรคมะเร็งกระเพาะปัสสาวะ
+EAU Guidelines เป็น clinical guidelines ที่ถูกอ้างอิงมากที่สุดในสาขาวิทยาระบบทางเดินปัสสาวะ
 
 <strong>National Cancer Institute (NCI) — USA</strong>
 หน่วยงานรัฐบาลสหรัฐอเมริกา ภายใต้ National Institutes of Health (NIH)
-NCI พัฒนาและดูแล Common Terminology Criteria for Adverse Events (CTCAE) ซึ่งเป็นระบบมาตรฐานสากลสำหรับการจำแนกและรายงานผลข้างเคียงจากการรักษามะเร็ง (ระดับ 1–5)
+NCI พัฒนาและดูแล Common Terminology Criteria for Adverse Events (CTCAE)
 
 <em>อ้างอิง: AUA Guidelines (auanet.org) | EAU Guidelines (uroweb.org) | NCI CTCAE (ctep.cancer.gov)</em>`
     },
@@ -421,7 +421,7 @@ EAU Guidelines are the most widely read in urology, covering bladder cancer diag
 
 <strong>National Cancer Institute (NCI) — USA</strong>
 Part of the U.S. National Institutes of Health (NIH)
-Maintains the CTCAE (Common Terminology Criteria for Adverse Events), the international standard for grading cancer treatment side effects (Grades 1–5).
+Maintains the CTCAE, the international standard for grading cancer treatment side effects (Grades 1–5).
 
 <em>References: AUA Guidelines (auanet.org) | EAU Guidelines (uroweb.org) | NCI CTCAE (ctep.cancer.gov)</em>`
     },
@@ -512,7 +512,6 @@ function showAuth() {
 function showApp() {
   $("auth-section").style.display = "none";
   $("app-shell").style.display = "flex";
-  // Show user block in header
   const userBlock = $("header-user-block");
   if (userBlock) userBlock.style.display = "";
   const userEl = $("user-name-display");
@@ -529,14 +528,11 @@ function handleLogin(e) {
   const hn = $("login-hn").value.trim();
   const errEl = $("login-error");
   errEl.classList.remove("show");
-
   if (!name) { errEl.textContent = t("errNameRequired"); errEl.classList.add("show"); return; }
   if (!hn)   { errEl.textContent = t("errHnRequired");   errEl.classList.add("show"); return; }
-
   const users = getUsers();
   const user = users.find(u => u.name.trim().toLowerCase() === name.toLowerCase() && u.hn === hn);
   if (!user) { errEl.textContent = t("errInvalidCredentials"); errEl.classList.add("show"); return; }
-
   currentUser = user;
   saveSession(user);
   showApp();
@@ -548,13 +544,10 @@ function handleRegister(e) {
   const hn   = $("reg-hn").value.trim();
   const errEl = $("reg-error");
   errEl.classList.remove("show");
-
   if (!name) { errEl.textContent = t("errNameRequired"); errEl.classList.add("show"); return; }
   if (!hn)   { errEl.textContent = t("errHnRequired");   errEl.classList.add("show"); return; }
-
   const users = getUsers();
   if (users.find(u => u.hn === hn)) { errEl.textContent = t("errHnExists"); errEl.classList.add("show"); return; }
-
   const user = { id: newId(), name, hn, createdAt: new Date().toISOString() };
   users.push(user);
   saveUsers(users);
@@ -577,17 +570,12 @@ function handleLogout() {
 function navigateTo(page, param) {
   currentPage = page;
   if (param !== undefined) viewingResultId = param;
-
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-
   const pageEl = $(page + "-page");
   if (pageEl) pageEl.classList.add("active");
-
   $("sidebar").classList.remove("open");
   $("sidebar-overlay").classList.remove("open");
-
   renderNav();
-
   if (page === "dashboard") renderDashboard();
   else if (page === "education") renderEducation();
   else if (page === "appointments") renderAppointments();
@@ -601,7 +589,6 @@ function renderNav() {
   const navIcons = { dashboard: "🏠", education: "📚", appointments: "📅", history: "📊" };
   const label = p => t("nav" + p.charAt(0).toUpperCase() + p.slice(1));
 
-  // Desktop horizontal nav
   const desktopNav = $("desktop-nav");
   if (desktopNav) {
     desktopNav.innerHTML = navPages.map(p =>
@@ -611,7 +598,6 @@ function renderNav() {
     ).join("");
   }
 
-  // Mobile drawer nav
   const sidebarNav = $("sidebar-nav");
   if (sidebarNav) {
     sidebarNav.innerHTML = navPages.map(p =>
@@ -698,24 +684,24 @@ function renderDashboard() {
     </div>
     <div class="hospital-info-card">
       <div class="hospital-info-header">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         ห้องตรวจพิเศษศัลยกรรม 2
       </div>
       <div class="hospital-info-body">
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           แผนกศัลยกรรมระบบทางเดินปัสสาวะ ชั้น 1 อาคารบุญสมมาร์ติน
         </div>
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           โรงพยาบาลมหาราชนครเชียงใหม่
         </div>
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.39 2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.39 2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           053-935736, 053-935738
         </div>
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           ทุกวันพุธและพฤหัสบดี 08.00–16.00 น.
         </div>
       </div>
@@ -735,30 +721,22 @@ function renderEducation() {
     </div>
     <div class="hospital-info-card" style="margin-bottom:20px">
       <div class="hospital-info-header">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         ข้อมูลคลินิก
       </div>
       <div class="hospital-info-body">
         <div class="hospital-info-row"><strong>ห้องตรวจพิเศษศัลยกรรม 2</strong></div>
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           แผนกศัลยกรรมระบบทางเดินปัสสาวะ ชั้น 1 อาคารบุญสมมาร์ติน
         </div>
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          โรงพยาบาลมหาราชนครเชียงใหม่
-        </div>
-        <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.39 2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.39 2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           053-935736, 053-935738
         </div>
         <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           บริการทุกวันพุธและพฤหัสบดี 08.00–16.00 น.
-        </div>
-        <div class="hospital-info-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/><path d="M2 6.5A10 10 0 0 1 12 2"/></svg>
-          บริการตรวจรักษาเกี่ยวกับโรคศัลยกรรมระบบทางเดินปัสสาวะ
         </div>
       </div>
     </div>
@@ -794,7 +772,7 @@ function renderAppointments() {
         <p>${t("apptSub")}</p>
       </div>
       <button class="btn btn-primary btn-auto" onclick="openApptModal()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         ${t("addAppt")}
       </button>
     </div>
@@ -811,10 +789,10 @@ function renderAppointments() {
               </div>
               <div class="list-actions">
                 <button class="icon-btn" onclick="openApptModal('${a.id}')" title="${t("editBtn")}">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 </button>
                 <button class="icon-btn icon-btn-danger" onclick="deleteAppt('${a.id}')" title="${t("deleteBtn")}">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                 </button>
               </div>
             </div>`;
@@ -887,7 +865,7 @@ function renderHistory() {
           <div class="list-actions">
             <button class="btn btn-sm btn-outline" onclick="navigateTo('result','${s.id}')">${t("viewResult")}</button>
             <button class="icon-btn icon-btn-danger" onclick="deleteSymptom('${s.id}')">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
             </button>
           </div>
         </div>
@@ -914,16 +892,19 @@ function renderChart(symptoms) {
         borderColor: "#0d9488",
         backgroundColor: "rgba(13,148,136,0.06)",
         pointBackgroundColor: colors,
-        pointRadius: 6, pointHoverRadius: 8,
-        tension: 0.3, fill: true,
+        pointBorderColor: "#fff",
+        pointBorderWidth: 2,
+        pointRadius: 6, pointHoverRadius: 9,
+        tension: 0.4, fill: true,
+        borderWidth: 2,
       }],
     },
     options: {
       responsive: true,
       plugins: { legend: { display: false } },
       scales: {
-        y: { min: 0, max: 8, ticks: { stepSize: 1 }, grid: { color: "#e2e8f0" } },
-        x: { grid: { display: false } },
+        y: { min: 0, max: 8, ticks: { stepSize: 1, font: { family: "'Sarabun'" } }, grid: { color: "#e8edf2" } },
+        x: { grid: { display: false }, ticks: { font: { family: "'Sarabun'" } } },
       },
     },
   });
@@ -942,15 +923,15 @@ function deleteSymptom(id) {
 const SYMPTOM_KEYS = ["dysuria","hematuria","lowerPain","chills","fever","grossHematuria","feverSystemic","persistentSymptoms","retention"];
 
 const SYMPTOM_CTCAE = {
-  dysuria:          { grade: 1, gradeLbl: "Grade 1", gradeColor: "grade-1" },
-  hematuria:        { grade: 1, gradeLbl: "Grade 1", gradeColor: "grade-1" },
-  lowerPain:        { grade: 1, gradeLbl: "Grade 1", gradeColor: "grade-1" },
-  chills:           { grade: 2, gradeLbl: "Grade 2", gradeColor: "grade-2" },
-  fever:            { grade: 2, gradeLbl: "Grade 2", gradeColor: "grade-2" },
-  grossHematuria:   { grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
-  feverSystemic:    { grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
+  dysuria:           { grade: 1, gradeLbl: "Grade 1", gradeColor: "grade-1" },
+  hematuria:         { grade: 1, gradeLbl: "Grade 1", gradeColor: "grade-1" },
+  lowerPain:         { grade: 1, gradeLbl: "Grade 1", gradeColor: "grade-1" },
+  chills:            { grade: 2, gradeLbl: "Grade 2", gradeColor: "grade-2" },
+  fever:             { grade: 2, gradeLbl: "Grade 2", gradeColor: "grade-2" },
+  grossHematuria:    { grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
+  feverSystemic:     { grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
   persistentSymptoms:{ grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
-  retention:        { grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
+  retention:         { grade: 3, gradeLbl: "Grade 3", gradeColor: "grade-3" },
 };
 
 function resetForm() {
@@ -968,7 +949,7 @@ function renderForm() {
       <input type="date" id="symptom-date" value="${today()}" max="${today()}">
     </div>
     <div class="ctcae-legend">
-      <span class="ctcae-legend-item"><span class="ctcae-dot grade-1"></span>${lang === "th" ? "Grade 1 — อาการเล็กน้อย" : "Grade 1 — Mild"}</span>
+      <span class="ctcae-legend-item"><span class="ctcae-dot grade-1"></span>${lang === "th" ? "Grade 1 — เล็กน้อย" : "Grade 1 — Mild"}</span>
       <span class="ctcae-legend-item"><span class="ctcae-dot grade-2"></span>${lang === "th" ? "Grade 2 — ปานกลาง" : "Grade 2 — Moderate"}</span>
       <span class="ctcae-legend-item"><span class="ctcae-dot grade-3"></span>${lang === "th" ? "Grade 3 — รุนแรง" : "Grade 3 — Severe"}</span>
     </div>
@@ -997,7 +978,7 @@ function renderSymptomGrid() {
       </span>
       <span class="ctcae-badge ${ctcae.gradeColor}">${ctcae.gradeLbl}</span>
       <span class="symptom-check ${selected ? "checked" : ""}">
-        ${selected ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>` : ""}
+        ${selected ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>` : ""}
       </span>
     </button>`;
   }).join("");
@@ -1027,11 +1008,14 @@ function renderScorePreview() {
     red:    lang === "th" ? "อาการรุนแรง กรุณาติดต่อทีมแพทย์โดยด่วน" : "Severe symptoms — contact medical team immediately",
   };
   const clinicInfo = level === "red"
-    ? `<div class="score-clinic-alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13"/><path d="M1.61 4.39 2 3.6h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7 10"/><line x1="1" y1="1" x2="23" y2="23"/></svg> ${lang === "th" ? "053-935736, 053-935738" : "053-935736, 053-935738"}</div>`
+    ? `<div class="score-clinic-alert">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/><path d="M1.61 4.39 2 3.6h3a2 2 0 0 1 2 1.72"/></svg>
+        053-935736, 053-935738
+      </div>`
     : "";
   preview.innerHTML = `
     <div class="score-preview ${cls}">
-      <div class="score-circle result-${level}">${score}</div>
+      <div class="score-circle">${score}</div>
       <div class="score-preview-text">
         <div class="score-label">${t("scorePreview")}</div>
         ${levelBadge(level)}
@@ -1083,7 +1067,7 @@ function renderResult() {
       <div class="info-card-title">${t("resultRecs")}</div>
       <ul class="rec-list">
         ${recs.map(r => `<li class="rec-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;color:var(--primary)"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;color:var(--primary);margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
           ${r}
         </li>`).join("")}
       </ul>
