@@ -38,23 +38,15 @@
               <rect x="9" y="20" width="38" height="52" rx="14"/>
             </clipPath>
           </defs>
-          <!-- needle -->
           <rect x="24" y="0" width="8" height="10" rx="3" fill="#0f766e"/>
-          <!-- cap -->
           <rect x="13" y="8" width="30" height="14" rx="7" fill="url(#capG)"/>
-          <!-- vial glass body -->
           <rect x="9" y="20" width="38" height="52" rx="14" fill="rgba(204,251,241,0.45)" stroke="#99f6e4" stroke-width="1.5"/>
-          <!-- liquid fill -->
           <rect x="9" y="48" width="38" height="24" fill="url(#liqG)" opacity="0.75" clip-path="url(#vc)"/>
-          <!-- liquid wave top -->
           <ellipse cx="28" cy="48" rx="19" ry="5.5" fill="#5eead4" opacity="0.65" clip-path="url(#vc)"/>
-          <!-- measure lines -->
           <line x1="14" y1="30" x2="25" y2="30" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
           <line x1="14" y1="37" x2="21" y2="37" stroke="#0d9488" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
           <line x1="14" y1="44" x2="25" y2="44" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-          <!-- shine reflection -->
           <rect x="13" y="23" width="5" height="36" rx="2.5" fill="white" opacity="0.42"/>
-          <!-- bubbles in liquid -->
           <circle cx="37" cy="56" r="3.5" fill="white" opacity="0.38"/>
           <circle cx="29" cy="64" r="2.5" fill="white" opacity="0.3"/>
           <circle cx="37" cy="65" r="1.8" fill="white" opacity="0.28"/>
@@ -79,7 +71,6 @@
           <button class="tab-btn" id="tab-register" data-tkey="register">สมัครสมาชิก</button>
         </div>
 
-        <!-- Login Panel -->
         <div id="login-panel">
           <div id="login-error" class="error-msg"></div>
           <form id="login-form" novalidate>
@@ -95,7 +86,6 @@
           </form>
         </div>
 
-        <!-- Register Panel -->
         <div id="register-panel" style="display:none">
           <div id="reg-error" class="error-msg"></div>
           <form id="register-form" novalidate>
@@ -126,35 +116,37 @@
     <div class="header-inner">
       <div class="header-left">
         <button class="hamburger" id="hamburger" aria-label="Menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
         <div class="brand">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 82" fill="none" class="brand-img" style="width:28px;height:38px;flex-shrink:0">
-            <defs>
-              <linearGradient id="capH" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#5eead4"/>
-                <stop offset="100%" stop-color="#0f766e"/>
-              </linearGradient>
-              <linearGradient id="liqH" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#99f6e4"/>
-                <stop offset="100%" stop-color="#0d9488"/>
-              </linearGradient>
-              <clipPath id="vh">
-                <rect x="9" y="20" width="38" height="52" rx="14"/>
-              </clipPath>
-            </defs>
-            <rect x="24" y="0" width="8" height="10" rx="3" fill="#0f766e"/>
-            <rect x="13" y="8" width="30" height="14" rx="7" fill="url(#capH)"/>
-            <rect x="9" y="20" width="38" height="52" rx="14" fill="rgba(204,251,241,0.45)" stroke="#99f6e4" stroke-width="1.5"/>
-            <rect x="9" y="48" width="38" height="24" fill="url(#liqH)" opacity="0.75" clip-path="url(#vh)"/>
-            <ellipse cx="28" cy="48" rx="19" ry="5.5" fill="#5eead4" opacity="0.65" clip-path="url(#vh)"/>
-            <line x1="14" y1="30" x2="25" y2="30" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-            <line x1="14" y1="44" x2="25" y2="44" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-            <rect x="13" y="23" width="5" height="36" rx="2.5" fill="white" opacity="0.42"/>
-            <circle cx="37" cy="57" r="3" fill="white" opacity="0.35"/>
-          </svg>
+          <div class="brand-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 82" fill="none" style="width:22px;height:30px">
+              <defs>
+                <linearGradient id="capH" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#5eead4"/>
+                  <stop offset="100%" stop-color="#0f766e"/>
+                </linearGradient>
+                <linearGradient id="liqH" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#99f6e4"/>
+                  <stop offset="100%" stop-color="#0d9488"/>
+                </linearGradient>
+                <clipPath id="vh">
+                  <rect x="9" y="20" width="38" height="52" rx="14"/>
+                </clipPath>
+              </defs>
+              <rect x="24" y="0" width="8" height="10" rx="3" fill="#0f766e"/>
+              <rect x="13" y="8" width="30" height="14" rx="7" fill="url(#capH)"/>
+              <rect x="9" y="20" width="38" height="52" rx="14" fill="rgba(204,251,241,0.45)" stroke="#99f6e4" stroke-width="1.5"/>
+              <rect x="9" y="48" width="38" height="24" fill="url(#liqH)" opacity="0.75" clip-path="url(#vh)"/>
+              <ellipse cx="28" cy="48" rx="19" ry="5.5" fill="#5eead4" opacity="0.65" clip-path="url(#vh)"/>
+              <line x1="14" y1="30" x2="25" y2="30" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <line x1="14" y1="44" x2="25" y2="44" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <rect x="13" y="23" width="5" height="36" rx="2.5" fill="white" opacity="0.42"/>
+              <circle cx="37" cy="57" r="3" fill="white" opacity="0.35"/>
+            </svg>
+          </div>
           <div>
             <div class="brand-name">BCG Pathway Care</div>
             <div class="brand-sub">ห้องตรวจพิเศษศัลยกรรม 2</div>
@@ -174,7 +166,7 @@
           <span class="header-username" id="user-name-display"></span>
         </div>
         <button class="btn-icon-ghost" id="logout-btn" title="ออกจากระบบ">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <polyline points="16 17 21 12 16 7"/>
             <line x1="21" y1="12" x2="9" y2="12"/>
@@ -213,7 +205,12 @@
 <!-- ══ APPOINTMENT MODAL ══ -->
 <div class="modal-overlay" id="appt-modal">
   <div class="modal">
-    <div class="modal-title" id="appt-modal-title">เพิ่มนัดหมาย</div>
+    <div class="modal-header">
+      <div class="modal-title" id="appt-modal-title">เพิ่มนัดหมาย</div>
+      <button class="modal-close" onclick="closeApptModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
     <div id="appt-error" class="error-msg"></div>
     <div class="field">
       <label data-tkey="apptDate">วันที่นัดหมาย</label>
